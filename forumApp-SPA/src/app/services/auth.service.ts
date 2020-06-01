@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 // serwis pobierajacy wpisane dane do formularza logowania i odbierający token od api
 
 @Injectable({ // pozwala na wstrzykiwanie zaleznosci, komponenty domyślnie mogą byc a serwisy nie
@@ -9,6 +10,8 @@ import { map } from 'rxjs/operators';
 export class AuthService {
 
   baseUrl = 'http://localhost:5000/api/auth/';
+  jwtHelper = new JwtHelperService();
+  decodedToken: any;
 
   constructor(private http: HttpClient) { }
 
@@ -18,6 +21,8 @@ export class AuthService {
         const user = response; // wpisujemy token ktory dostalismy od api
         if (user) {
           localStorage.setItem('token', user.token);
+          this.decodedToken = this.jwtHelper.decodeToken(user.token);
+          console.log(this.decodedToken);
         }
       })
       ); // pipe pozwala na dolaczenie odpowiedzi json jaka dostaniemy od bazy
@@ -25,5 +30,10 @@ export class AuthService {
 
   register(model: any) {
     return this.http.post(this.baseUrl + 'register', model);
+  }
+
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    return !this.jwtHelper.isTokenExpired(token);
   }
 }
