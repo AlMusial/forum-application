@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertifyService } from '../services/alertify.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -10,7 +11,7 @@ import { AlertifyService } from '../services/alertify.service';
 export class NavComponent implements OnInit {
   model: any = {}; // przechowuje wpisany do formularza login oraz hasło
 
-  constructor(public authService: AuthService, private alertify: AlertifyService ) { }
+  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -19,6 +20,8 @@ export class NavComponent implements OnInit {
       this.alertify.successMessage('Logged in successfully');
     }, error => {
       this.alertify.errorMessage(error);
+    }, () => { // mozna tez dac to kolo alertify ..., ale tutaj wykorzystuje sie kolejny opcjonalny parametr funkcji subs()
+      this.router.navigate(['/issues']);
     });
   }
 
@@ -29,5 +32,6 @@ export class NavComponent implements OnInit {
   logout() {
     localStorage.removeItem('token'); // usuwa przechowany token w localStorage
     this.alertify.message('logged out');
+    this.router.navigate(['/home']); // ...tak jak tutaj
   }
 }
