@@ -9,8 +9,8 @@ using forumApp.API.Data;
 namespace forumApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200601211923_AddIssueModel")]
-    partial class AddIssueModel
+    [Migration("20200604112642_AddThreadEntity")]
+    partial class AddThreadEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,7 +18,30 @@ namespace forumApp.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0");
 
-            modelBuilder.Entity("forumApp.API.Models.Issue", b =>
+            modelBuilder.Entity("forumApp.API.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("forumApp.API.Models.Thread", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,37 +56,14 @@ namespace forumApp.API.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Issues");
-                });
-
-            modelBuilder.Entity("forumApp.API.Models.Photo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("IssueId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IssueId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Photos");
+                    b.ToTable("Threads");
                 });
 
             modelBuilder.Entity("forumApp.API.Models.User", b =>
@@ -114,17 +114,18 @@ namespace forumApp.API.Migrations
 
             modelBuilder.Entity("forumApp.API.Models.Photo", b =>
                 {
-                    b.HasOne("forumApp.API.Models.Issue", "Issue")
-                        .WithMany("Photo")
-                        .HasForeignKey("IssueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("forumApp.API.Models.User", "User")
                         .WithOne("Photo")
                         .HasForeignKey("forumApp.API.Models.Photo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("forumApp.API.Models.Thread", b =>
+                {
+                    b.HasOne("forumApp.API.Models.User", null)
+                        .WithMany("Threads")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

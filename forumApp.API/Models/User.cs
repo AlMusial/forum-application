@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace forumApp.API.Models
 {
@@ -13,6 +14,7 @@ namespace forumApp.API.Models
         public DateTime LastActive { get; set; }
         public string Info { get; set; }
         public Photo Photo { get; set; }
+        public ICollection<Thread> Threads { get; set; }
 
     }
 }

@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using forumApp.API.Helpers;
+using AutoMapper;
 
 namespace forumApp.API
 {
@@ -36,10 +37,15 @@ namespace forumApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))); // polaczenie z baza danych
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(option => 
+            {
+                option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddCors();
-            services.AddScoped<IAuthRepository, AuthRepository>(); //dodanie repositry do projektu, bedzie mozna wstrzykiwac zaleznosci
+            services.AddAutoMapper(typeof(ForumRepository).Assembly);
+            services.AddScoped<IAuthRepository, AuthRepository>(); //dodanie repositry do projektu jako service, bedzie mozna wstrzykiwac zaleznosci
             /* Gdy w kontrolerze wysle się żadanie logowania interfejs przekaże go do AuthRepository */
+            services.AddScoped<IForumRepository, ForumRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters

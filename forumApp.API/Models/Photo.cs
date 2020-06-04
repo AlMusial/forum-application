@@ -7,9 +7,9 @@ namespace forumApp.API.Models
         public int Id { get; set; }
         public string Url { get; set; }
         public DateTime Date { get; set; }
-        // public User User { get; set; } musza byc nullable
-        // public int UserId { get; set; }
-        public Issue Issue { get; set; }
-        public int IssueId { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
+        // public Issue Issue { get; set; }
+        // public int IssueId { get; set; }
     }
 }
