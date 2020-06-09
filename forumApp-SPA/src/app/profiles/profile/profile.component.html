@@ -1,0 +1,38 @@
+<div class="class container mt-4">
+  <div class="class row">
+    <div class="col-sm-8">
+      <strong>User threads:</strong>
+        <div class="card">
+          <div *ngFor="let thread of threads" class="card-body">
+          <h5 class="card-header" [routerLink]="['/profile/', user.id]">
+            {{ thread.title }}
+          </h5>
+          <div class="card-body">
+            <p class="card-text">{{ thread.content }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <h4 class="text-center"> {{ user.username | titlecase }}'s Profile </h4>
+      <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{ user.profilePhoto }}">
+        <button class="btn btn-primary">Message</button>
+        <div class="card-body">
+          <div>
+            <strong>Info</strong>
+            <p>{{ user.info }}</p>
+          </div>
+          <div>
+            <strong>Last Active:</strong>
+            <p> {{ user.lastActive }} </p>
+          </div>
+          <div>
+            <strong>Member since:</strong>
+            <p> {{ user.created }} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

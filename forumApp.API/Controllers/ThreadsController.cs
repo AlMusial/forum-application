@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using forumApp.API.Data;
+using forumApp.API.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +14,10 @@ namespace forumApp.API.Controllers
     public class ThreadsController : ControllerBase
     {
         private readonly IForumRepository _repo;
-        public ThreadsController(IForumRepository repo)
+        private readonly IMapper _mapper;
+        public ThreadsController(IForumRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
         }
 
@@ -20,14 +25,16 @@ namespace forumApp.API.Controllers
         public async Task<IActionResult> GetThreads()
         {
             var threads = await _repo.GetThreads();
-            return Ok(threads);
+            var finalThreads = _mapper.Map<IEnumerable<ThreadsForListDto>>(threads);
+            return Ok(finalThreads);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetThread(int id)
         {
             var thread = await _repo.GetThread(id);
-            return Ok(thread);
+            var finalThread = _mapper.Map<ThreadsForListDto>(thread);
+            return Ok(finalThread);
         }
     }
 }

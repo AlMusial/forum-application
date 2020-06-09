@@ -1,0 +1,10 @@
+<div class="card">
+  <h5 class="card-header" [routerLink]="['/threads/', thread.id]">{{thread.title}}</h5>
+  <div class="card-body">
+    <p class="card-text">{{thread.content}}</p>
+    <p class="card-text width-max">
+      <img class="img-card mr-2" src="{{thread.photo}}" [routerLink]="['/profile/', thread.userId]">
+      <small class="text-muted"> {{thread.username}} {{thread.created}}</small>
+    </p>
+  </div>
+</div>

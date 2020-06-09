@@ -1,0 +1,7 @@
+<div class="container mt-4">
+  <div class="row">
+    <div *ngFor="let thread of threads" class="mt-2 mb-2">
+      <app-thread-card [thread]="thread"></app-thread-card>
+    </div>
+  </div>
+</div>

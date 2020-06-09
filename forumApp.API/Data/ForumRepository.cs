@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using forumApp.API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace forumApp.API.Data
 {
@@ -37,13 +38,13 @@ namespace forumApp.API.Data
         }
         public async Task<Thread> GetThread(int id)
         {
-            var thread = await _context.Threads.Include(a => a.User).FirstOrDefaultAsync( u => u.User.Id == id);
+            var thread = await _context.Threads.Include(a => a.User.Photo).FirstOrDefaultAsync( u => u.User.Id == id);
             return thread;
         }
 
         public async Task<IEnumerable<Thread>> GetThreads()
         {
-            var threads = await _context.Threads.Include( u => u.User).ToListAsync();
+            var threads = await _context.Threads.Include( u => u.User.Photo).ToListAsync();
             return threads;
         }
 

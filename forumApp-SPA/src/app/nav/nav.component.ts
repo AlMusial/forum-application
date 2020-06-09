@@ -21,7 +21,7 @@ export class NavComponent implements OnInit {
     }, error => {
       this.alertify.errorMessage(error);
     }, () => { // mozna tez dac to kolo alertify ..., ale tutaj wykorzystuje sie kolejny opcjonalny parametr funkcji subs()
-      this.router.navigate(['/issues']);
+      this.router.navigate(['/threads']);
     });
   }
 
