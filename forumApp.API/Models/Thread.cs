@@ -10,5 +10,6 @@ namespace forumApp.API.Models
         public DateTime Created { get; set; }
         public string Content { get; set; }
         public User User { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

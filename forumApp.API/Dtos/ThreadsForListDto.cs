@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using forumApp.API.Models;
 
 namespace forumApp.API.Dtos
 {
@@ -11,5 +13,6 @@ namespace forumApp.API.Dtos
         public string Username { get; set; }
         public int UserId { get; set; }
         public string Photo { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

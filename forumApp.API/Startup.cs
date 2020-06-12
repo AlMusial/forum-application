@@ -42,6 +42,7 @@ namespace forumApp.API
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));//do klasyCloudinary settings przypisane zostanie z getsection wartosci zadeklarowane w appsettins
             services.AddAutoMapper(typeof(ForumRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>(); //dodanie repositry do projektu jako service, bedzie mozna wstrzykiwac zaleznosci
             /* Gdy w kontrolerze wysle się żadanie logowania interfejs przekaże go do AuthRepository */

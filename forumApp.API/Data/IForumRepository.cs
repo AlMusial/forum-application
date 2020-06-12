@@ -12,7 +12,9 @@ namespace forumApp.API.Data
          Task<bool> Save();
          Task<IEnumerable<User>> GetUsers ();
          Task<User> GetUser(int id);
+        // Task<Thread> AddThread(Thread thread);
          Task<Thread> GetThread(int id);
+         Task<Comment> GetComment(int id);
          Task<IEnumerable<Thread>> GetThreads();
 
     }

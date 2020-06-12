@@ -9,6 +9,7 @@ namespace forumApp.API.Models
         public DateTime Date { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
+        public string PublicId { get; set; }
         // public Issue Issue { get; set; }
         // public int IssueId { get; set; }
     }

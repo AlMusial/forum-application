@@ -15,6 +15,7 @@ namespace forumApp.API.Models
         public string Info { get; set; }
         public Photo Photo { get; set; }
         public ICollection<Thread> Threads { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
     }
 }

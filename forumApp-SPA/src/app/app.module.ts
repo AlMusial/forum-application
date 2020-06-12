@@ -25,9 +25,11 @@ import { AlertifyService } from './services/alertify.service';
 import { AuthGuard } from './guards/auth.guard';
 import { UserService } from './services/user.service';
 import { ThreadService } from './services/thread.service';
-import { UserDetailResolver } from './resolvers/user-detail.resolver';
+import { ProfileDetailResolver } from './resolvers/profile-detail.resolver';
 import { ThreadDetailResolver } from './resolvers/thread-detail.resolver';
 import { ThreadListResolver } from './resolvers/thread-list.resolver';
+import { ProfileEditResolver } from './resolvers/profile-edit.resolver';
+import { PreventUnsaved } from './guards/prevent-unsaved.guard';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -69,9 +71,11 @@ export function tokenGetter() {
       ThreadService,
       ErrorInterceptorProvider,
       AuthGuard,
-      UserDetailResolver,
+      ProfileDetailResolver,
+      ProfileEditResolver,
       ThreadDetailResolver,
-      ThreadListResolver
+      ThreadListResolver,
+      PreventUnsaved
    ],
    bootstrap: [
       AppComponent

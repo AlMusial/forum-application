@@ -36,6 +36,10 @@ namespace forumApp.API.Data
             var users = await _context.Users.Include(p => p.Photo).Include( t => t.Threads).ToListAsync(); // pobranie listy uzytkownikow razem z profilowymi
             return users;
         }
+        // public async Task<Thread> AddThread(Thread thread)
+        // {
+        //     return Ok();
+        // }
         public async Task<Thread> GetThread(int id)
         {
             var thread = await _context.Threads.Include(a => a.User.Photo).FirstOrDefaultAsync( u => u.User.Id == id);
@@ -52,6 +56,12 @@ namespace forumApp.API.Data
         {
             return await _context.SaveChangesAsync() > 0; // aby funkcja zwrocila true- kiedy wieksza od zero albo false gdy rowne 0
 
+        }
+
+        public async Task<Comment> GetComment(int id)
+        {
+            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            return comment;
         }
     }
 }

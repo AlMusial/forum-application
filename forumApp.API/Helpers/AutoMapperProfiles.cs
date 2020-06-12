@@ -19,6 +19,12 @@ namespace forumApp.API.Helpers
                 .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.Username))
                 .ForMember(d => d.UserId, opt => opt.MapFrom(src => src.User.Id));
             CreateMap<Thread, ThreadsForProfileDto>();
+            CreateMap<CommentForCreateDto, Comment>();
+            CreateMap<Comment, CommentsForThreadDto>()
+                .ForMember(p => p.Photo, opt => opt.MapFrom(src => src.User.Photo.Url)) 
+                .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.Username))
+                .ForMember(d => d.UserId, opt => opt.MapFrom(src => src.User.Id));
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }
