@@ -30,6 +30,9 @@ import { ThreadDetailResolver } from './resolvers/thread-detail.resolver';
 import { ThreadListResolver } from './resolvers/thread-list.resolver';
 import { ProfileEditResolver } from './resolvers/profile-edit.resolver';
 import { PreventUnsaved } from './guards/prevent-unsaved.guard';
+import { AddCommentComponent } from './threads/add-comment/add-comment.component';
+import { CommentComponent } from './threads/comment/comment.component';
+import { AddThreadComponent } from './threads/add-thread/add-thread.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -47,7 +50,10 @@ export function tokenGetter() {
       ThreadCardComponent,
       ThreadSiteComponent,
       ProfileComponent,
-      ProfileEditComponent
+      ProfileEditComponent,
+      AddCommentComponent,
+      AddThreadComponent,
+      CommentComponent
    ],
    imports: [
       BrowserModule,

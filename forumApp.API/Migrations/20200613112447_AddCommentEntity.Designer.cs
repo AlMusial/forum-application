@@ -9,7 +9,7 @@ using forumApp.API.Data;
 namespace forumApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200611101336_AddCommentEntity")]
+    [Migration("20200613112447_AddCommentEntity")]
     partial class AddCommentEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace forumApp.API.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ThreadId")
+                    b.Property<int>("ThreadId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("UserId")
@@ -42,7 +42,7 @@ namespace forumApp.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("forumApp.API.Models.Photo", b =>
@@ -52,6 +52,9 @@ namespace forumApp.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Url")
@@ -143,7 +146,9 @@ namespace forumApp.API.Migrations
                 {
                     b.HasOne("forumApp.API.Models.Thread", null)
                         .WithMany("Comments")
-                        .HasForeignKey("ThreadId");
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("forumApp.API.Models.User", "User")
                         .WithMany("Comments")

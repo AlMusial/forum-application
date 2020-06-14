@@ -14,4 +14,8 @@
     transform: scale(1.0, 1.0);
     transition-duration: 100ms;
     transition-timing-function: ease-out;
+    align-items:space-between;
+    max-width: 800px;
+    width: auto;
+    display: flex;
 }

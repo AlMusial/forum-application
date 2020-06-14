@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Thread } from '../models/thread';
+import { Comment } from '../models/comment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +20,10 @@ export class ThreadService {
     return this.http.get<Thread>(this.baseUrl + 'threads/' + id);
   }
 
+  addThread(id: number, model: any) {
+    return this.http.post(this.baseUrl + 'threads/add/' + id, model);
+  }
+  // addComment(threadId: number, userId: number, comment: Comment) {
+  //   return this.http.post(this.baseUrl + 'threads/' + threadId + '/' + userId + '/comment', comment);
+  // }
 }

@@ -7,5 +7,6 @@ namespace forumApp.API.Models
         public string Content { get; set; }
         public DateTime Created { get; set; }
         public User User { get; set; }
+        public int ThreadId { get; set; }
     }
 }

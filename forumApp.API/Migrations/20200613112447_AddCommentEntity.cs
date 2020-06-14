@@ -7,8 +7,13 @@ namespace forumApp.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "PublicId",
+                table: "Photos",
+                nullable: true);
+
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -16,19 +21,19 @@ namespace forumApp.API.Migrations
                     Content = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: true),
-                    ThreadId = table.Column<int>(nullable: true)
+                    ThreadId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Threads_ThreadId",
+                        name: "FK_Comments_Threads_ThreadId",
                         column: x => x.ThreadId,
                         principalTable: "Threads",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Users_UserId",
+                        name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -36,20 +41,24 @@ namespace forumApp.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_ThreadId",
-                table: "Comment",
+                name: "IX_Comments_ThreadId",
+                table: "Comments",
                 column: "ThreadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UserId",
-                table: "Comment",
+                name: "IX_Comments_UserId",
+                table: "Comments",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
+
+            migrationBuilder.DropColumn(
+                name: "PublicId",
+                table: "Photos");
         }
     }
 }

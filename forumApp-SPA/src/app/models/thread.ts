@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export interface Thread {
     id: number;
     title: string;
@@ -6,4 +8,5 @@ export interface Thread {
     username: string;
     userId: number;
     photo: string;
+    comments?: Comment[];
 }

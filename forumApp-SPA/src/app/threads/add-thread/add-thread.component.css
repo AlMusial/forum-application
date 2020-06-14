@@ -1,0 +1,14 @@
+.card {
+    transform: scale(1.0, 1.0);
+    transition-duration: 100ms;
+    transition-timing-function: ease-out;
+    align-items:space-between;
+    max-width: 760px;
+    width: auto;
+    display: flex;
+    background-color: rgb(222, 238, 230)
+}
+
+.card-header {
+    background-color: rgb(184, 222, 201);
+}

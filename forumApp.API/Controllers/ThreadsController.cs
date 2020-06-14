@@ -40,43 +40,26 @@ namespace forumApp.API.Controllers
             return Ok(finalThread);
         }
 
-        // [HttpGet("{id}", Name = "GetComment")]
-        // public async Task<IActionResult> GetComment(int id)
-        // {
-        //     var commentFromRepo = await _repo.GetComment(id);
-        //     var comment = _mapper.Map<CommentsForThreadDto>(commentFromRepo);
-
-        //     return Ok(comment);
-        // }
-
-        [HttpPost("AddComment")]
-        public async Task<IActionResult> AddComment(int userId, int threadId, CommentForCreateDto commentForCreateDto)
+        [HttpPost("add/{userId}")]
+        public async Task<IActionResult> Add(int userId, ThreadForCreateDto threadForCreateDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
+                
+        var userFromRepo = await _repo.GetUser(userId);
+        threadForCreateDto.UserId = userFromRepo.Id;
+        var thread = _mapper.Map<Thread>(threadForCreateDto);
+        
+        userFromRepo.Threads.Add(thread);
 
-            var userFromRepo = await _repo.GetUser(userId);
-            var threadFromRepo =await _repo.GetThread(threadId);
-
-            var comment = _mapper.Map<Comment>(commentForCreateDto);
-
-            threadFromRepo.Comments.Add(comment);
-            userFromRepo.Comments.Add(comment);
-
-
-            var commentToCreate = new Comment
-            {
-                Content = commentForCreateDto.Content,
-                User = userFromRepo
-            };
-
-             if (await _repo.Save())
+        if (await _repo.Save())
              {
-                 var finalComment = _mapper.Map<CommentsForThreadDto>(comment);
-                 //return CreatedAtRoute("GetComment", new { userId = userId, threadId = threadId }, finalComment);
-                 return StatusCode(201);
+                 var finalThread= _mapper.Map<ThreadsForListDto>(thread);
+                 return Ok(finalThread);
              }
-             return BadRequest("Could not add new comment");
-        }
+            return BadRequest("Could not add new thread");
+        } 
+
+
     }
 }

@@ -28,7 +28,7 @@ namespace forumApp.API.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ThreadId")
+                    b.Property<int>("ThreadId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("UserId")
@@ -40,7 +40,7 @@ namespace forumApp.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("forumApp.API.Models.Photo", b =>
@@ -144,7 +144,9 @@ namespace forumApp.API.Migrations
                 {
                     b.HasOne("forumApp.API.Models.Thread", null)
                         .WithMany("Comments")
-                        .HasForeignKey("ThreadId");
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("forumApp.API.Models.User", "User")
                         .WithMany("Comments")

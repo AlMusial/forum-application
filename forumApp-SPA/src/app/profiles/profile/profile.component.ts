@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { AlertifyService } from '../../services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../models/user';
+import { Thread } from 'src/app/models/thread';
 
 @Component({
   selector: 'app-profile',
@@ -43,9 +44,14 @@ export class ProfileComponent implements OnInit {
        threads.push({
          title: thread.title,
          content: thread.content,
-         created: thread.created
+         created: thread.created,
+         id: thread.id
        });
      }
      return threads;
+   }
+
+   getThread(thread: Thread) {
+     return thread.id;
    }
 }

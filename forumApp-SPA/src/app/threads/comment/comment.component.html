@@ -1,0 +1,9 @@
+  <div *ngFor="let comment of comments" class="mt-2 mb-2">
+    <div class="card">
+    <div class="card-body">
+      <p class="card-text">{{ comment.content }}</p>
+      <p class="card-text width-max">
+        <small class="text-muted">{{comment.threadId}} {{comment.created}}</small>
+    </div>
+  </div>
+</div>

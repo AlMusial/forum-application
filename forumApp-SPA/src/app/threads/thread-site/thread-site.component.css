@@ -1,0 +1,9 @@
+.thread-card {
+    transform: scale(1.0, 1.0);
+    transition-duration: 100ms;
+    transition-timing-function: ease-out;
+}
+
+.card-body {
+    background-color: rgb(223, 241, 228);
+}

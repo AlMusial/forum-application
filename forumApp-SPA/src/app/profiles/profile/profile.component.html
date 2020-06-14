@@ -2,9 +2,9 @@
   <div class="class row">
     <div class="col-sm-8">
       <strong>User threads:</strong>
-        <div class="card">
-          <div *ngFor="let thread of threads" class="card-body">
-          <h5 class="card-header" [routerLink]="['/profile/', user.id]">
+        <div class="container">
+          <div *ngFor="let thread of threads" class="card m-4">
+          <h5 class="card-header" [routerLink]="['/threads/', thread.id]">
             {{ thread.title }}
           </h5>
           <div class="card-body">

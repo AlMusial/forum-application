@@ -3,7 +3,7 @@
   <div class="card-body">
     <p class="card-text">{{thread.content}}</p>
     <p class="card-text width-max">
-      <img class="img-card mr-2" src="{{thread.photo}}" [routerLink]="['/profile/', thread.userId]">
+      <img class="img-card mr-2" src="{{thread.photo}}" [routerLink]="['/profiles/', thread.userId]">
       <small class="text-muted"> {{thread.username}} {{thread.created}}</small>
     </p>
   </div>

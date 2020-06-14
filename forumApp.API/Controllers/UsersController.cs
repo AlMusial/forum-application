@@ -72,7 +72,7 @@ namespace forumApp.API.Controllers
             throw new Exception($"Failed to update user");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> AddPhoto(int userId, PhotoForUploadDto photoForUploadDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))

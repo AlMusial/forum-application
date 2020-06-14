@@ -1,18 +1,18 @@
 <div class="class container mt-4">
   <div class="class row">
     <div class="col-md-8">
-      <strong>User threads:</strong>
-        <div class="card">
-          <div class="card-body">
+        <div class="thread-card">
           <h5 class="card-header" [routerLink]="['/threads/', thread.id]">
             {{ thread.title }}
           </h5>
           <div class="card-body">
             <p class="card-text">{{ thread.content }}</p>
           </div>
-        </div>
-        <div class="col-sm-8"></div>
       </div>
+        <app-comment [comments]="thread.comments"></app-comment>
     </div>
+
+    
+    <div class="col-sm-8"></div>
   </div>
 </div>

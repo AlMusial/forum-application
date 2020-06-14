@@ -10,7 +10,7 @@ namespace forumApp.API.Dtos
         public string Username { get; set; }
         public string Photo { get; set; }
         public int UserId { get; set; }
-        public int threadId { get; set; }
+        public int ThreadId { get; set; }
 
     }
 }

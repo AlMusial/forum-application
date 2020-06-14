@@ -8,5 +8,6 @@ export interface User {
     profilePhoto: string;
     info?: string;
     threads?: Thread[];
+    comments?: Comment[];
 }
 

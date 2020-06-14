@@ -27,7 +27,7 @@ namespace forumApp.API.Data
         public async Task<User> GetUser(int id)
         { 
             // aby zaladowac tez zdj profilowe trzeba dac include
-            var user = await _context.Users.Include(p => p.Photo).Include(t => t.Threads).FirstOrDefaultAsync( u => u.Id == id);
+            var user = await _context.Users.Include(c => c.Comments).Include(p => p.Photo).Include(t => t.Threads).FirstOrDefaultAsync( u => u.Id == id);
             return user;
         }
 
@@ -40,12 +40,17 @@ namespace forumApp.API.Data
         // {
         //     return Ok();
         // }
-        public async Task<Thread> GetThread(int id)
+        public async Task<Thread> GetThreadForProfile(int id)
         {
             var thread = await _context.Threads.Include(a => a.User.Photo).FirstOrDefaultAsync( u => u.User.Id == id);
             return thread;
         }
 
+        public async Task<Thread> GetThread(int id)
+        {
+            var thread = await _context.Threads.Include(c => c.Comments).Include(a => a.User.Photo).FirstOrDefaultAsync( t => t.Id == id);
+            return thread;
+        }
         public async Task<IEnumerable<Thread>> GetThreads()
         {
             var threads = await _context.Threads.Include( u => u.User.Photo).ToListAsync();
@@ -62,6 +67,11 @@ namespace forumApp.API.Data
         {
             var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
             return comment;
+        }
+        public async Task<IEnumerable<Comment>> GetComments()
+        {
+            var comments = await _context.Comments.ToListAsync();
+            return comments;
         }
     }
 }
