@@ -7,12 +7,15 @@
           </h5>
           <div class="card-body">
             <p class="card-text">{{ thread.content }}</p>
+            <p class="card-text width-max">
+              <img class="img-card mr-2" src="{{thread.photo}}" [routerLink]="['/profiles/', thread.userId]">
+              <small class="text-muted"> {{thread.username | titlecase }} {{thread.created | date : "medium"}}</small>
+            </p>
           </div>
       </div>
         <app-comment [comments]="thread.comments"></app-comment>
-    </div>
-
-    
+        <app-add-comment [thread]="thread.id"></app-add-comment>
+    </div>  
     <div class="col-sm-8"></div>
   </div>
 </div>

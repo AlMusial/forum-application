@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace forumApp.API.Controllers
 {
     [Authorize]
-    [Route("api/threads/{threadId}/{userId}/comment")]
+    [Route("api/threads/comment")]
     [ApiController]
     public class CommentController : ControllerBase
     {
@@ -32,7 +33,7 @@ namespace forumApp.API.Controllers
              return Ok(comment);
          }
 
-        [HttpPost]
+        [HttpPost("{threadId}/{userId}")]
         public async Task<IActionResult> AddComment(int threadId, int userId,  CommentForCreateDto commentForCreateDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
@@ -45,19 +46,6 @@ namespace forumApp.API.Controllers
             commentForCreateDto.threadId = threadFromRepo.Id;
 
             var comment = _mapper.Map<Comment>(commentForCreateDto);
-            // var comment = new Comment
-            // {
-            //     Content = commentForCreateDto.Content,
-            //     User = userFromRepo
-            // };
-            // if(comment != null)
-            // {
-            //     if(threadFromRepo == null)
-            //     {
-            //         return BadRequest("dupa");
-            //     }
-                
-            // }
 
             threadFromRepo.Comments.Add(comment);
             userFromRepo.Comments.Add(comment);
@@ -68,5 +56,27 @@ namespace forumApp.API.Controllers
              }
              return BadRequest("Could not add new comment");
         }
+
+        [HttpDelete("{id}/{userId}")]
+        public async Task<IActionResult> DeleteThread(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            var user = await _repo.GetUser(userId);
+
+            if(!user.Comments.Any( c => c.Id == id))
+            {
+                return Unauthorized();
+            }
+
+            var comment = await _repo.GetComment(id);
+            _repo.Delete(comment);
+
+            if(await _repo.Save())
+                return Ok();
+
+            return BadRequest("Failed to delete comment");
+        }
+
     }
 }

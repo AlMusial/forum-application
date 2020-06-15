@@ -3,5 +3,7 @@ export class Comment {
     content: string;
     created: Date;
     userId: number;
+    username: string;
+    photo: string;
     threadId: number;
 }

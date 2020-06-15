@@ -13,6 +13,6 @@ namespace forumApp.API.Dtos
         public string Username { get; set; }
         public int UserId { get; set; }
         public string Photo { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public IEnumerable<CommentsForThreadDto> Comments { get; set; }
     }
 }

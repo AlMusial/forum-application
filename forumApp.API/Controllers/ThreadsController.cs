@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -26,6 +28,7 @@ namespace forumApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetThreads()
         {
+
             var threads = await _repo.GetThreads();
             var finalThreads = _mapper.Map<IEnumerable<ThreadsForListDto>>(threads);
             return Ok(finalThreads);
@@ -35,8 +38,12 @@ namespace forumApp.API.Controllers
         public async Task<IActionResult> GetThread(int id)
         {
             var thread = await _repo.GetThread(id);
+            //foreach()
+            var commentsFromRepo = await _repo.GetCommentsForThread(id);
+            var comments = _mapper.Map<IEnumerable<CommentsForThreadDto>>(commentsFromRepo);
+            //thread.Comments = comments;
             var finalThread = _mapper.Map<ThreadsForListDto>(thread);// po to zeby niie zwracac calego obiektu tylko wybrane pola
-            //var comment = _mapper.Map<ThreadsForListDto, CommentsForThreadDto>(comment);
+            finalThread.Comments = comments;
             return Ok(finalThread);
         }
 
@@ -60,6 +67,26 @@ namespace forumApp.API.Controllers
             return BadRequest("Could not add new thread");
         } 
 
+        [HttpDelete("{id}/{userId}")]
+        public async Task<IActionResult> DeleteThread(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            var user = await _repo.GetUser(userId);
+
+            if(!user.Threads.Any( t => t.Id == id))
+            {
+                return Unauthorized();
+            }
+
+            var thread = await _repo.GetThread(id);
+            _repo.Delete(thread);
+
+            if(await _repo.Save())
+                return Ok();
+
+            return BadRequest("Failed to delete thread");
+        }
 
     }
 }

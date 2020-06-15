@@ -4,10 +4,11 @@
       <strong>User threads:</strong>
         <div class="container">
           <div *ngFor="let thread of threads" class="card m-4">
-          <h5 class="card-header" [routerLink]="['/threads/', thread.id]">
+          <h5 class="card-header">
             {{ thread.title }}
+          <button type="button" class="btn btn-md btn-secondary" (click)="deleteThread(thread.id)"><i class="fa fa-trash-o"></i></button>
           </h5>
-          <div class="card-body">
+          <div class="card-body"  [routerLink]="['/threads/', thread.id]">
             <p class="card-text">{{ thread.content }}</p>
           </div>
         </div>
@@ -25,11 +26,11 @@
           </div>
           <div>
             <strong>Last Active:</strong>
-            <p> {{ user.lastActive }} </p>
+            <p> {{ user.lastActive | date : "medium" }} </p>
           </div>
           <div>
             <strong>Member since:</strong>
-            <p> {{ user.created }} </p>
+            <p> {{ user.created | date : "medium" }} </p>
           </div>
         </div>
       </div>

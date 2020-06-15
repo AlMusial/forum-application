@@ -23,8 +23,7 @@ namespace forumApp.API.Helpers
             CreateMap<Comment, CommentsForThreadDto>()
                 .ForMember(p => p.Photo, opt => opt.MapFrom(src => src.User.Photo.Url)) 
                 .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.Username))
-                .ForMember(d => d.UserId, opt => opt.MapFrom(src => src.User.Id))
-                .ForMember(t => t.ThreadId, opt => opt.MapFrom(src => src.ThreadId));
+                .ForMember(d => d.UserId, opt => opt.MapFrom(src => src.User.Id));
             CreateMap<UserForUpdateDto, User>();
         }
     }

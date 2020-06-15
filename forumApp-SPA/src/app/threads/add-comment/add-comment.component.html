@@ -1,8 +1,9 @@
-<div class="card">
-  <div *ngFor="let comment of comments" class="mt-2 mb-2">
-    <div class="card-body">
-      <p class="card-text">{{ comment.content }}</p>
-      <button type="button" class="btn btn-sm"><i class="fa fa-plus"></i></button>
+<div class="card mb-4 mt-4">
+  <h6 class="card-header">Post a comment:</h6>
+  <form #addForm="ngForm" (ngSubmit)="addComment()">
+    <div class="form-group m-2">
+      <input type="text" class="form-control" required name="content" [(ngModel)]="model.content">
     </div>
-  </div>
+      <button class="btn btn-success m-2" type="submit">Add comment</button>
+  </form>
 </div>

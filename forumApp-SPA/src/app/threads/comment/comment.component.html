@@ -3,7 +3,9 @@
     <div class="card-body">
       <p class="card-text">{{ comment.content }}</p>
       <p class="card-text width-max">
-        <small class="text-muted">{{comment.threadId}} {{comment.created}}</small>
+        <img class="img-card mr-2" src="{{comment.photo}}" [routerLink]="['/profiles/', comment.userId]">
+        <small class="text-muted">{{comment.username | titlecase}} {{comment.created | date : "medium"}}</small>
+        <button *ngIf="isUserComment(comment.userId)" type="button" class="btn btn-md btn-secondary" (click)="deleteComment(comment.id)"><i class="fa fa-trash-o"></i></button>
     </div>
   </div>
 </div>

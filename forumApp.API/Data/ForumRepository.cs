@@ -53,7 +53,7 @@ namespace forumApp.API.Data
         }
         public async Task<IEnumerable<Thread>> GetThreads()
         {
-            var threads = await _context.Threads.Include( u => u.User.Photo).ToListAsync();
+            var threads = await _context.Threads.Include(c => c.Comments).Include( u => u.User.Photo).ToListAsync();
             return threads;
         }
 
@@ -65,12 +65,12 @@ namespace forumApp.API.Data
 
         public async Task<Comment> GetComment(int id)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            var comment = await _context.Comments.Include(u => u.User).Include(p => p.User.Photo).FirstOrDefaultAsync(c => c.Id == id);
             return comment;
         }
-        public async Task<IEnumerable<Comment>> GetComments()
+        public async Task<IEnumerable<Comment>> GetCommentsForThread(int id)
         {
-            var comments = await _context.Comments.ToListAsync();
+            var comments = await _context.Comments.Include(u => u.User.Photo).Where(c => c.ThreadId == id).ToListAsync();
             return comments;
         }
     }
