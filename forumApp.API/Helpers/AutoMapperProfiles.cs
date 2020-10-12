@@ -25,6 +25,9 @@ namespace forumApp.API.Helpers
                 .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.Username))
                 .ForMember(d => d.UserId, opt => opt.MapFrom(src => src.User.Id));
             CreateMap<UserForUpdateDto, User>();
+            CreateMap<UserForRegisterDto, User>();
+            CreateMap<PhotoForUploadDto, Photo>();
+            CreateMap<Photo, PhotoForReturnDto>();
         }
     }
 }

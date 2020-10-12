@@ -1,14 +1,14 @@
 <div class="class container mt-4">
   <div class="class row">
     <div class="col-sm-8">
-      <h4>Edit Profile:</h4>
+      <h4>Edit Profile</h4>
       <form #editForm="ngForm" id="form"(ngSubmit)="updateUser()">
       <div class="card">
         <h6>Username:</h6>
         <input name="info" type="text" class="form-control" name="username" [(ngModel)]="user.username">
         <h6 class="mt-2">Info:</h6>
         <textarea name="info" rows="6" class="form-control" [(ngModel)]="user.info"></textarea>
-        <h6 class="mt-2">Change Profile photo</h6>
+        <app-photo (getNewPhoto)="updateProfilePhoto($event)"></app-photo>
       </div>
     </form>
     <button [disabled]="!editForm.dirty" class="btn btn-success mt-2" form="form">Save Changes</button>
@@ -19,7 +19,7 @@
     <div class="col-sm-4">
       <h4 class="text-center"> Your Profile </h4>
       <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{ user.profilePhoto }}">
+        <img class="card-img-top img-thumbnail" src="{{ photoUrl || '../../../assets/user.png' }}">
         <button class="btn btn-primary">Message</button>
         <div class="card-body">
           <div>

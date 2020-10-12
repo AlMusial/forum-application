@@ -31,11 +31,19 @@ namespace forumApp.API.Data
             return user;
         }
 
+        public async Task<Photo> GetPhoto(int id)
+        { 
+            // aby zaladowac tez zdj profilowe trzeba dac include
+            var photo = await _context.Photos.FirstOrDefaultAsync( u => u.Id == id);
+            return photo;
+        }
+
         public async Task<IEnumerable<User>> GetUsers()
         {
             var users = await _context.Users.Include(p => p.Photo).Include( t => t.Threads).ToListAsync(); // pobranie listy uzytkownikow razem z profilowymi
             return users;
         }
+        
         // public async Task<Thread> AddThread(Thread thread)
         // {
         //     return Ok();

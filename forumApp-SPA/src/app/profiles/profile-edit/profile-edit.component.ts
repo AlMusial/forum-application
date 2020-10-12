@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProfileEditComponent implements OnInit {
   user: User;
+  photoUrl: string;
   @ViewChild('editForm') editForm: NgForm;
   @HostListener('window:beforeunload', ['$event']) // chroni przed utrata wpisanych zmian po zamknieciu karty przegladarki: uruchamia popout
   unloadNotification($event: any) {
@@ -27,6 +28,7 @@ export class ProfileEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
@@ -36,5 +38,9 @@ export class ProfileEditComponent implements OnInit {
     }, error => {
       this.alertiy.errorMessage(error);
     });
+  }
+
+  updateProfilePhoto(photoUrl) {
+    this.user.profilePhoto = photoUrl;
   }
 }

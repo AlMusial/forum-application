@@ -48,7 +48,7 @@ namespace forumApp.API.Controllers
             return Ok(finalUsers);
         }
 
-        [HttpGet("{id}")] //sciezka bedzie wymagac id
+        [HttpGet("{id}", Name = "GetUser")] //sciezka bedzie wymagac id
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _repo.GetUser(id);
@@ -72,45 +72,5 @@ namespace forumApp.API.Controllers
             throw new Exception($"Failed to update user");
         }
 
-        [HttpPut]
-        public async Task<IActionResult> AddPhoto(int userId, PhotoForUploadDto photoForUploadDto)
-        {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized();
-
-            var userFromRepo = await _repo.GetUser(userId);
-
-            var file = photoForUploadDto.File;
-            var uploadResult = new ImageUploadResult(); // przechowanie odpowiedzi od cloudinary
-
-            if(file.Length > 0)// jezeli cos jest w tym pliku
-            {
-                using (var stream = file.OpenReadStream())// aby pokazac co jest w tym pliku po zaladownaiu go
-                {
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face") // zeby przerobic duze zdjecie na kwadrat
-                    };
-
-                    uploadResult = _cloudinary.Upload(uploadParams);
-                }
-            }
-
-            // pobranie reeszty danych z cloudinary do dto
-            photoForUploadDto.Url = uploadResult.Url.ToString();
-            photoForUploadDto.PublicId = uploadResult.PublicId;
-            //mapowanie z tych wartosci do instancji modelu photo z dto
-
-            var photo = _mapper.Map<Photo>(photoForUploadDto);
-            userFromRepo.Photo = photo;
-
-            if(await _repo.Save())
-            {
-                return Ok();
-            }
-
-            return BadRequest("Could not upload the photo");
-        }
     }
 }

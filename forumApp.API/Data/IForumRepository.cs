@@ -16,6 +16,7 @@ namespace forumApp.API.Data
          Task<Thread> GetThreadForProfile(int id);
          Task<Thread> GetThread(int id);
          Task<Comment> GetComment(int id);
+         Task<Photo> GetPhoto(int id);
          Task<IEnumerable<Comment>> GetCommentsForThread(int id);
          Task<IEnumerable<Thread>> GetThreads();
 

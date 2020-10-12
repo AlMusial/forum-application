@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 
 namespace forumApp.API.Controllers
 {
@@ -19,8 +20,10 @@ namespace forumApp.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config) // wstrzykiwanie potrzebnych zaleznosci do danej klasy
+        private readonly IMapper _mapper;
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper) // wstrzykiwanie potrzebnych zaleznosci do danej klasy
         {
+            _mapper = mapper;
             _config = config;
             _repo = repo;
         }
@@ -33,13 +36,11 @@ namespace forumApp.API.Controllers
             if (await _repo.UserExist(userForRegisterDto.Username))
                 return BadRequest("Username is already taken");
 
-            var userToCreate = new User
-            {
-                Username = userForRegisterDto.Username
-            };
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
-            return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForListDto>(createdUser);
+            return CreatedAtRoute("GetUser", new {Controller = "Users", id = createdUser.Id}, userToReturn);
         }
 
         [HttpPost("login")]
@@ -69,9 +70,12 @@ namespace forumApp.API.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor); //zawiera token jwt ktory chcemy zwrocic do klienta
+            var user = _mapper.Map<UserForListDto>(userFromRepo);
 
-            return Ok(new {
-                token = tokenHandler.WriteToken(token) // odpowiedz wysylana do strony klienta
+            return Ok(new
+            {
+                token = tokenHandler.WriteToken(token), // odpowiedz wysylana do strony klienta
+                user
             });
         }
 

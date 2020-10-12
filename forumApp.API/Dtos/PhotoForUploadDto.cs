@@ -7,7 +7,12 @@ namespace forumApp.API.Dtos
     {
         public string Url { get; set; }
         public IFormFile File { get; set; }
+        public DateTime Date { get; set; }
         public string PublicId { get; set; }
 
+        public PhotoForUploadDto()
+        {
+            Date = DateTime.Now;
+        }
     }
 }
