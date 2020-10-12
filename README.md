@@ -1,21 +1,21 @@
-#forum web API application
-##About
+# Forum web API application
+## About
 The main goal of this project was to enable communication between the users. Each one can create their own thread which can be commented by other users.
 
-##View
+## View
 
 
-##Technologies
+## Technologies
 ASP.NET Core 3.1 for backend
 Angular 9 or frontend
 SQLite database (code-first approach in EntityFramework)
 JWT for authentication
 
-##Software design pattern
+## Software design pattern
 DTO
 Repository pattern
 
-##Libraries
+## Libraries
 Bootstrap
 Alertify js
 Automapper
